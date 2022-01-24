@@ -1,16 +1,51 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Playlist_Manager.Helpers;
+using Playlist_Manager.IServices;
+using Playlist_Manager.Models;
 
-namespace proiect.Controllers
+namespace Playlist_Manager.Controllers
 {
-    public class PlaylistController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PlaylistController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly IPlaylistService _playlistService;
+
+        public PlaylistController(IPlaylistService playlistService)
         {
-            return View();
+            _playlistService = playlistService;
         }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Get()
+        {
+            return Ok(_playlistService.GetAllPlaylists());
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Post(PlaylistModel playlist)
+        {
+            _playlistService.CreatePlaylist(playlist);
+            return Ok(_playlistService.GetAllPlaylists());
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            _playlistService.DeletePlaylist(id);
+            return Ok(_playlistService.GetAllPlaylists());
+        }
+
+        [HttpPut]
+        [Authorize]
+        public IActionResult Put(PlaylistModel playlist)
+        {
+            _playlistService.UpdatePlaylist(playlist);
+            return Ok(_playlistService.GetAllPlaylists());
+        }
+
     }
 }

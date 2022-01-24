@@ -1,16 +1,38 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Playlist_Manager.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using Playlist_Manager.IServices;
+using Playlist_Manager.Models;
 
-namespace proiect.Controllers
+namespace Playlist_Manager.Controllers
 {
-    public class AuthController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly IUserService _userService;
+
+        public AuthController(IUserService userService)
         {
-            return View();
+            this._userService = userService;
+        }
+
+        [HttpPost("register")]
+        public IActionResult Register(AuthenticationRequest request)
+        {
+            return Ok(_userService.Register(request));
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login(AuthenticationRequest request)
+        {
+            return Ok(_userService.Login(request));
+        }
+
+        [HttpGet("isAuth")]
+        [Authorize]
+        public IActionResult IsAuth()
+        {
+            return Ok(true);
         }
     }
 }
