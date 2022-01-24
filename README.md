@@ -6,5 +6,5 @@ Playlist Controller
 This controller is used to create, edit, delete playlists within the platform. 
 Song Controller 
 This controller is used to create, edit, delete songs. 
-Use Cases 
+Use Cases :
 A user can create a new account. A user can add new songs, edit existing ones and delete them. A user cand create new playlists, edit existing one and add songs to them 
